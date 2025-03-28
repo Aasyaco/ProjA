@@ -67,7 +67,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.get('/check-fb-user', async (req, res) => {
+app.get('/uid', async (req, res) => {
     try {
         const { uid } = req.query;
         const ip = req.ip || req.connection.remoteAddress;
@@ -85,9 +85,9 @@ app.get('/check-fb-user', async (req, res) => {
         };
         https.get(options, (fbRes) => {
             if ([200, 302].includes(fbRes.statusCode)) {
-                res.status(200).json({ status: "Alive", message: "Account found." });
+                res.status(200).json({ status: "Alive", message: "Account alive." });
             } else if (fbRes.statusCode === 404) {
-                res.status(404).json({ status: "Not Found", message: "Account not found." });
+                res.status(404).json({ status: "Dead", message: "Account was death." });
             } else {
                 res.status(500).json({ error: `Unexpected response from Facebook: ${fbRes.statusCode}` });
             }
