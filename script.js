@@ -18,3 +18,15 @@ document.getElementById('checkForm').addEventListener('submit', function(e) {
         }
     }, 1000);
 });
+
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+const themeStyle = document.getElementById('theme-style');
+
+themeToggle.addEventListener('change', function() {
+    if (themeToggle.checked) {
+        themeStyle.setAttribute('href', 'styles-dark.css');
+    } else {
+        themeStyle.setAttribute('href', 'styles.css');
+    }
+});
