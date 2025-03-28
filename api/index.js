@@ -1,12 +1,19 @@
 const https = require('https');
 
+const VALID_TOKEN = "MO0XRD-ZRPL4O-9R0HJZ-9ZODEX-UMN7VW-3Q8FM2";
 module.exports = async (req, res) => {
     if (req.method !== 'GET') {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
-    const uid = req.query.uid;
-    if (!uid) return res.status(400).json({ error: "UID is required" });
+    const { uid, token } = req.query;
+    if (!token || token !== VALID_TOKEN) {
+        return res.status(401).json({ error: "Unauthorized: Invalid token" });
+    }
+
+    if (!uid) {
+        return res.status(400).json({ error: "UID is required" });
+    }
 
     const options = {
         hostname: 'graph.facebook.com',
