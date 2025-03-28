@@ -10,9 +10,11 @@ document.getElementById('checkForm').addEventListener('submit', function(e) {
         if (isLive) {
             resultDiv.textContent = `The Facebook ID/URL "${facebookId}" is currently live.`;
             resultDiv.style.color = 'green';
+            resultDiv.style.backgroundColor = '#d4edda';
         } else {
             resultDiv.textContent = `The Facebook ID/URL "${facebookId}" is not live.`;
             resultDiv.style.color = 'red';
+            resultDiv.style.backgroundColor = '#f8d7da';
         }
     }, 1000);
 });
