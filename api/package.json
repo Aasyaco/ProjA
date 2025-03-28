@@ -14,8 +14,8 @@
     "node-cache": "^5.1.2"
   },
   "engines": {
-    "node": "16.x"
+    "node": "22.x"
   },
-  "author": "Your Name",
+  "author": "George",
   "license": "ISC"
 }
