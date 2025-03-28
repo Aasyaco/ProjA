@@ -7,8 +7,6 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const CA_CERT = fs.readFileSync('./facebook-ca.pem');
-
 async function isMaliciousIP(ip) {
     try {
         const response = await axios.get(`https://api.abuseipdb.com/api/v2/check`, {
@@ -81,7 +79,6 @@ app.get('/uid', async (req, res) => {
             path: `/${uid}/picture?type=normal`,
             method: 'GET',
             rejectUnauthorized: true,
-            ca: CA_CERT,
         };
         https.get(options, (fbRes) => {
             if ([200, 302].includes(fbRes.statusCode)) {
