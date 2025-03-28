@@ -2,7 +2,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: #fff;
     overflow-x: hidden;
 }
 
@@ -53,10 +54,15 @@ body {
     color: #fff;
     text-decoration: none;
     font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ff7e5f;
 }
 
 .header {
-    background-color: #007bff;
+    background: linear-gradient(to right, #43cea2, #185a9d);
     color: #fff;
     padding: 60px 0;
     text-align: center;
@@ -65,12 +71,12 @@ body {
 
 .header h1 {
     margin: 0;
-    font-size: 36px;
+    font-size: 48px;
     animation: fadeIn 1.5s ease-in-out;
 }
 
 .header p {
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 10px;
     animation: fadeIn 1.5s ease-in-out 0.5s;
     animation-fill-mode: both;
