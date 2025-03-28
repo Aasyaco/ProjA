@@ -65,7 +65,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.get('/uid', async (req, res) => {
+app.get('/api', async (req, res) => {
     try {
         const { uid } = req.query;
         const ip = req.ip || req.connection.remoteAddress;
