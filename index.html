@@ -3,83 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Live Facebook</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css" id="theme-style">
+    <title>Facebook Profile Checker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="logo.png" alt="ThanhLike Logo" class="logo">
-                ThanhLike
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Check Live Facebook</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-            </ul>
-            <div class="theme-switch">
-                <input type="checkbox" id="theme-toggle">
-                <label for="theme-toggle">Dark Mode</label>
-            </div>
-            <div class="language-select">
-                <select id="language-selector">
-                    <!-- Add options for 20+ languages -->
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="zh">中文</option>
-                    <option value="ja">日本語</option>
-                    <option value="ko">한국어</option>
-                    <option value="hi">हिंदी</option>
-                    <option value="ar">العربية</option>
-                    <option value="ru">Русский</option>
-                    <option value="pt">Português</option>
-                    <option value="it">Italiano</option>
-                    <option value="nl">Nederlands</option>
-                    <option value="sv">Svenska</option>
-                    <option value="no">Norsk</option>
-                    <option value="da">Dansk</option>
-                    <option value="fi">Suomi</option>
-                    <option value="pl">Polski</option>
-                    <option value="tr">Türkçe</option>
-                    <option value="th">ไทย</option>
-                    <!-- More languages can be added here -->
-                </select>
-            </div>
-        </div>
-    </nav>
-
-    <header class="header">
-        <div class="container">
-            <h1 class="fade-in">Check Live Facebook Status</h1>
-            <p class="fade-in-delay">Enter your Facebook ID or URL to check if it's live.</p>
-        </div>
-    </header>
-
-    <main class="main">
-        <div class="container">
-            <form id="checkForm">
-                <div class="form-group">
-                    <label for="facebookId">Facebook ID or URL</label>
-                    <input type="text" class="form-control" id="facebookId" placeholder="Enter Facebook ID or URL" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Check Live Status</button>
-            </form>
-            <div id="result" class="result"></div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 ThanhLike. All rights reserved.</p>
-            <p><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+    <div class="background"></div>
+    <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="container">
+        <img src="assets/logo.png" class="logo" alt="Logo">
+        <h2 id="title">Facebook Profile Checker</h2>
+        <select id="language" onchange="changeLanguage()"></select>
+        <input type="text" id="userId" placeholder="Enter Facebook User ID">
+        <button onclick="checkProfile()">Check</button>
+        <div id="result"></div>
+    </div>
 </body>
 </html>
