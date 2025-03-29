@@ -1,212 +1,128 @@
-:root {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --info-color: #17a2b8;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --navbar-background-color: var(--primary-color);
-    --navbar-text-color: #ffffff;
-    --header-background-color: var(--primary-color);
-    --header-text-color: #ffffff;
-    --footer-background-color: var(--dark-color);
-    --footer-text-color: #ffffff;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    overflow-x: hidden;
-}
-
-.navbar {
-    background-color: var(--navbar-background-color);
-    color: var(--navbar-text-color);
-    padding: 15px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-brand {
-    font-size: 24px;
-    color: var(--navbar-text-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    transition: transform 0.3s;
-}
-
-.logo:hover {
-    transform: rotate(360deg);
-}
-
-.navbar-nav {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-item {
-    margin-left: 15px;
-}
-
-.nav-link {
-    color: var(--navbar-text-color);
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-.nav-link:hover {
-    color: var(--secondary-color);
-}
-
-.theme-switch {
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-}
-
-.language-select {
-    margin-left: 15px;
-}
-
-.header {
-    background-color: var(--header-background-color);
-    color: var(--header-text-color);
-    padding: 60px 0;
-    text-align: center;
     overflow: hidden;
+    transition: background 0.5s;
+    background: var(--background);
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 48px;
-    animation: fadeIn 1.5s ease-in-out;
+:root {
+    --background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    --container-bg: rgba(255, 255, 255, 0.2);
+    --text-color: white;
 }
 
-.header p {
-    font-size: 20px;
-    margin-top: 10px;
-    animation: fadeIn 1.5s ease-in-out 0.5s;
-    animation-fill-mode: both;
+.dark-mode {
+    --background: linear-gradient(135deg, #1a1a1a, #333);
+    --container-bg: rgba(50, 50, 50, 0.8);
+    --text-color: #ddd;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.main {
-    padding: 20px 0;
-    text-align: center;
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, rgba(0,0,0,0) 70%);
+    animation: animateBG 6s infinite alternate;
 }
 
 .container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: var(--light-color);
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    transform: scale(0.95);
-    animation: popIn 0.5s ease-in-out forwards;
+    position: relative;
+    background: var(--container-bg);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+    color: var(--text-color);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
 }
 
-@keyframes popIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.container:hover {
+    transform: rotateY(10deg) rotateX(5deg);
 }
 
-.form-group {
-    margin-bottom: 15px;
-    text-align: left;
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
 }
 
-.form-control {
+select, input, button {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s;
-}
-
-.form-control:focus {
-    border-color: var(--primary-color);
-    outline: none;
-}
-
-.btn {
-    background-color: var(--primary-color);
-    color: var(--light-color);
-    padding: 10px 20px;
+    margin: 8px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.3s;
 }
 
-.btn:hover {
-    background-color: var(--dark-color);
-    transform: translateY(-2px);
+button:hover {
+    transform: scale(1.05);
 }
 
-.footer {
-    background-color: var(--footer-background-color);
-    color: var(--footer-text-color);
-    padding: 20px;
-    text-align: center;
-    margin-top: 20px;
+/* Dark Mode Toggle */
+.toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
-.footer a {
-    color: var(--footer-text-color);
-    text-decoration: none;
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
 }
 
-.footer a:hover {
-    text-decoration: underline;
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.result {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 4px;
-    font-size: 16px;
-    animation: fadeIn 1s ease-in-out;
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #ff416c;
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
 }
