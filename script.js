@@ -1,32 +1,66 @@
-document.getElementById('checkForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const facebookId = document.getElementById('facebookId').value;
-    const resultDiv = document.getElementById('result');
+const translations = {
+    en: "Facebook Profile Checker",
+    es: "Comprobador de Perfil de Facebook",
+    fr: "Vérificateur de Profil Facebook",
+    de: "Facebook-Profil Prüfer",
+    it: "Controllo Profilo Facebook",
+    pt: "Verificador de Perfil do Facebook",
+    ru: "Проверка профиля Facebook",
+    zh: "Facebook 个人资料检查器",
+    ja: "Facebookプロフィールチェッカー",
+    ar: "مدقق ملف تعريف فيسبوك",
+    hi: "फेसबुक प्रोफ़ाइल चेकर",
+    nl: "Facebook Profiel Checker",
+    tr: "Facebook Profil Denetleyici",
+    ko: "페이스북 프로필 검사기",
+    vi: "Trình kiểm tra hồ sơ Facebook",
+    th: "ตัวตรวจสอบโปรไฟล์ Facebook",
+    id: "Pemeriksa Profil Facebook",
+    pl: "Sprawdzanie profilu Facebook",
+    sv: "Facebook-profilkontroll",
+    uk: "Перевірка профілю Facebook",
+    el: "Ελεγκτής προφίλ Facebook"
+};
 
-    // Simulate an API call to check the live status of the Facebook ID or URL
-    setTimeout(() => {
-        const isLive = Math.random() > 0.5; // Randomized result for demonstration
-        if (isLive) {
-            resultDiv.textContent = `The Facebook ID/URL "${facebookId}" is currently live.`;
-            resultDiv.style.color = 'green';
-            resultDiv.style.backgroundColor = '#d4edda';
-        } else {
-            resultDiv.textContent = `The Facebook ID/URL "${facebookId}" is not live.`;
-            resultDiv.style.color = 'red';
-            resultDiv.style.backgroundColor = '#f8d7da';
-        }
-    }, 1000);
+document.addEventListener("DOMContentLoaded", () => {
+    let languageDropdown = document.getElementById("language");
+    Object.keys(translations).forEach(lang => {
+        let option = document.createElement("option");
+        option.value = lang;
+        option.textContent = translations[lang];
+        languageDropdown.appendChild(option);
+    });
+
+    languageDropdown.addEventListener("change", changeLanguage);
+    document.getElementById("darkModeToggle").addEventListener("change", toggleDarkMode);
 });
 
-// Theme toggle functionality
-const themeToggle = document.getElementById('theme-toggle');
-const themeStyle = document.getElementById('theme-style');
+function changeLanguage() {
+    let lang = document.getElementById('language').value;
+    document.getElementById('title').innerText = translations[lang];
+}
 
-themeToggle.addEventListener('change', function() {
-    if (themeToggle.checked) {
-        themeStyle.setAttribute('href', 'styles-dark.css');
-    } else {
-        themeStyle.setAttribute('href', 'styles.css');
-    }
-});
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+function checkProfile() {
+    let userId = document.getElementById('userId').value;
+    let resultDiv = document.getElementById('result');
+
+    resultDiv.innerHTML = `<img src="assets/loader.gif" class="loader">`;
+
+    let imgUrl = `https://graph.facebook.com/${userId}/picture?type=normal`;
+
+    fetch(imgUrl).then(response => {
+        setTimeout(() => {
+            if (response.ok) {
+                resultDiv.innerHTML = `<p style="color: #0f0;">✔ Alive</p><img src="${imgUrl}" alt="Profile Picture">`;
+            } else {
+                resultDiv.innerHTML = '<p style="color: red;">✖ Death</p>';
+            }
+        }, 1500);
+    }).catch(() => {
+        resultDiv.innerHTML = '<p style="color: red;">Error fetching data</p>';
+    });
+}
