@@ -6,23 +6,32 @@
     <title>Facebook Profile Checker</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" href="assets/favicon.ico">
 </head>
 <body>
     <div class="background"></div>
-    <div class="toggle-container">
-        <label class="switch">
-            <input type="checkbox" id="darkModeToggle">
-            <span class="slider round"></span>
-        </label>
+    
+    <div class="top-bar">
+        <div class="language-selector">
+            <select id="language" onchange="changeLanguage()"></select>
+        </div>
     </div>
+
     <div class="container">
         <img src="assets/logo.png" class="logo" alt="Logo">
         <h2 id="title">Facebook Profile Checker</h2>
-        <select id="language" onchange="changeLanguage()"></select>
-        <input type="text" id="userId" placeholder="Enter Facebook User ID">
-        <button onclick="checkProfile()">Check</button>
-        <div id="result"></div>
+        <textarea id="userIds" placeholder="Enter Facebook UIDs (one per line)"></textarea>
+        <button onclick="checkProfiles()" id="checkBtn">Check</button>
+        <div class="results-container">
+            <div class="result-box alive">
+                <h3 id="aliveText">✅ Alive Accounts (<span id="aliveCount">0</span>)</h3>
+                <ul id="aliveList"></ul>
+            </div>
+            <div class="result-box dead">
+                <h3 id="deadText">❌ Dead Accounts (<span id="deadCount">0</span>)</h3>
+                <ul id="deadList"></ul>
+            </div>
+        </div>
     </div>
 </body>
 </html>
