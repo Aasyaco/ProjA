@@ -18,12 +18,6 @@ body {
     --text-color: white;
 }
 
-.dark-mode {
-    --background: linear-gradient(135deg, #1a1a1a, #333);
-    --container-bg: rgba(50, 50, 50, 0.8);
-    --text-color: #ddd;
-}
-
 .top-bar {
     position: absolute;
     top: 10px;
@@ -73,10 +67,6 @@ button {
     padding: 10px;
     border-radius: 8px;
     margin-top: 10px;
-}
-
-button:hover {
-    transform: scale(1.05);
 }
 
 .results-container {
