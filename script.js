@@ -1,21 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     let languageDropdown = document.getElementById("language");
-    fetch("https://restcountries.com/v3.1/all")
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(country => {
-                let option = document.createElement("option");
-                option.value = country.languages ? Object.keys(country.languages)[0] : "en";
-                option.textContent = country.name.common;
-                languageDropdown.appendChild(option);
-            });
-        });
-    
+    let languages = await fetchLanguages();
+
+    languages.forEach(lang => {
+        let option = document.createElement("option");
+        option.value = lang.code;
+        option.textContent = lang.name;
+        languageDropdown.appendChild(option);
+    });
+
+    languageDropdown.value = "en";
     languageDropdown.addEventListener("change", changeLanguage);
+
+    let theme = localStorage.getItem("theme") || "light";
+    document.body.classList.add(theme);
 });
 
+async function fetchLanguages() {
+    let response = await fetch("https://restcountries.com/v3.1/all");
+    let data = await response.json();
+    let languageSet = new Set();
+
+    data.forEach(country => {
+        if (country.languages) {
+            Object.entries(country.languages).forEach(([code, name]) => {
+                languageSet.add({ code, name });
+            });
+        }
+    });
+
+    return Array.from(languageSet);
+}
+
 function changeLanguage() {
-    let lang = document.getElementById('language').value;
+    let lang = document.getElementById("language").value;
     translatePage(lang);
 }
 
@@ -33,7 +51,7 @@ function translatePage(lang) {
 }
 
 function checkProfiles() {
-    let userIds = document.getElementById('userIds').value.split("\n").map(uid => uid.trim()).filter(uid => uid);
+    let userIds = document.getElementById("userIds").value.split("\n").map(uid => uid.trim()).filter(uid => uid);
     let aliveList = document.getElementById("aliveList");
     let deadList = document.getElementById("deadList");
     let aliveCount = document.getElementById("aliveCount");
@@ -65,12 +83,13 @@ function checkProfiles() {
                     deadList.appendChild(li);
                 }
             }, 1000 * index);
-        }).catch(() => {
-            dead++;
-            deadCount.textContent = dead;
-            let li = document.createElement("li");
-            li.textContent = uid;
-            deadList.appendChild(li);
         });
     });
+}
+
+function toggleTheme() {
+    let body = document.body;
+    body.classList.toggle("dark");
+    let theme = body.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("theme", theme);
 }
