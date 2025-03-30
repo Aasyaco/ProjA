@@ -1,28 +1,35 @@
-const translations = {
-    en: { title: "Facebook Profile Checker", check: "Check", alive: "✅ Alive Accounts", dead: "❌ Dead Accounts" },
-    es: { title: "Verificador de Perfiles de Facebook", check: "Verificar", alive: "✅ Cuentas Activas", dead: "❌ Cuentas Inactivas" },
-    fr: { title: "Vérificateur de Profil Facebook", check: "Vérifier", alive: "✅ Comptes Actifs", dead: "❌ Comptes Inactifs" },
-    de: { title: "Facebook-Profilprüfer", check: "Prüfen", alive: "✅ Aktive Konten", dead: "❌ Tote Konten" }
-};
-
 document.addEventListener("DOMContentLoaded", () => {
     let languageDropdown = document.getElementById("language");
-    for (let lang in translations) {
-        let option = document.createElement("option");
-        option.value = lang;
-        option.textContent = lang.toUpperCase();
-        languageDropdown.appendChild(option);
-    }
-    languageDropdown.value = "en";
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(country => {
+                let option = document.createElement("option");
+                option.value = country.languages ? Object.keys(country.languages)[0] : "en";
+                option.textContent = country.name.common;
+                languageDropdown.appendChild(option);
+            });
+        });
+    
     languageDropdown.addEventListener("change", changeLanguage);
 });
 
 function changeLanguage() {
     let lang = document.getElementById('language').value;
-    document.getElementById('title').innerText = translations[lang].title;
-    document.getElementById('checkBtn').innerText = translations[lang].check;
-    document.getElementById('aliveText').innerHTML = `${translations[lang].alive} (<span id="aliveCount">0</span>)`;
-    document.getElementById('deadText').innerHTML = `${translations[lang].dead} (<span id="deadCount">0</span>)`;
+    translatePage(lang);
+}
+
+function translatePage(lang) {
+    let elements = document.querySelectorAll("[id]");
+    elements.forEach(element => {
+        fetch(`https://api.mymemory.translated.net/get?q=${element.innerText}&langpair=en|${lang}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.responseData && data.responseData.translatedText) {
+                    element.innerText = data.responseData.translatedText;
+                }
+            });
+    });
 }
 
 function checkProfiles() {
