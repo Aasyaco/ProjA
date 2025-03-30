@@ -1,66 +1,69 @@
 const translations = {
-    en: "Facebook Profile Checker",
-    es: "Comprobador de Perfil de Facebook",
-    fr: "Vérificateur de Profil Facebook",
-    de: "Facebook-Profil Prüfer",
-    it: "Controllo Profilo Facebook",
-    pt: "Verificador de Perfil do Facebook",
-    ru: "Проверка профиля Facebook",
-    zh: "Facebook 个人资料检查器",
-    ja: "Facebookプロフィールチェッカー",
-    ar: "مدقق ملف تعريف فيسبوك",
-    hi: "फेसबुक प्रोफ़ाइल चेकर",
-    nl: "Facebook Profiel Checker",
-    tr: "Facebook Profil Denetleyici",
-    ko: "페이스북 프로필 검사기",
-    vi: "Trình kiểm tra hồ sơ Facebook",
-    th: "ตัวตรวจสอบโปรไฟล์ Facebook",
-    id: "Pemeriksa Profil Facebook",
-    pl: "Sprawdzanie profilu Facebook",
-    sv: "Facebook-profilkontroll",
-    uk: "Перевірка профілю Facebook",
-    el: "Ελεγκτής προφίλ Facebook"
+    en: { title: "Facebook Profile Checker", check: "Check", alive: "✅ Alive Accounts", dead: "❌ Dead Accounts" },
+    es: { title: "Verificador de Perfiles de Facebook", check: "Verificar", alive: "✅ Cuentas Activas", dead: "❌ Cuentas Inactivas" },
+    fr: { title: "Vérificateur de Profil Facebook", check: "Vérifier", alive: "✅ Comptes Actifs", dead: "❌ Comptes Inactifs" },
+    de: { title: "Facebook-Profilprüfer", check: "Prüfen", alive: "✅ Aktive Konten", dead: "❌ Tote Konten" }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     let languageDropdown = document.getElementById("language");
-    Object.keys(translations).forEach(lang => {
+    for (let lang in translations) {
         let option = document.createElement("option");
         option.value = lang;
-        option.textContent = translations[lang];
+        option.textContent = lang.toUpperCase();
         languageDropdown.appendChild(option);
-    });
-
+    }
+    languageDropdown.value = "en";
     languageDropdown.addEventListener("change", changeLanguage);
-    document.getElementById("darkModeToggle").addEventListener("change", toggleDarkMode);
 });
 
 function changeLanguage() {
     let lang = document.getElementById('language').value;
-    document.getElementById('title').innerText = translations[lang];
+    document.getElementById('title').innerText = translations[lang].title;
+    document.getElementById('checkBtn').innerText = translations[lang].check;
+    document.getElementById('aliveText').innerHTML = `${translations[lang].alive} (<span id="aliveCount">0</span>)`;
+    document.getElementById('deadText').innerHTML = `${translations[lang].dead} (<span id="deadCount">0</span>)`;
 }
 
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
+function checkProfiles() {
+    let userIds = document.getElementById('userIds').value.split("\n").map(uid => uid.trim()).filter(uid => uid);
+    let aliveList = document.getElementById("aliveList");
+    let deadList = document.getElementById("deadList");
+    let aliveCount = document.getElementById("aliveCount");
+    let deadCount = document.getElementById("deadCount");
 
-function checkProfile() {
-    let userId = document.getElementById('userId').value;
-    let resultDiv = document.getElementById('result');
+    aliveList.innerHTML = "";
+    deadList.innerHTML = "";
+    aliveCount.textContent = "0";
+    deadCount.textContent = "0";
 
-    resultDiv.innerHTML = `<img src="assets/loader.gif" class="loader">`;
+    let alive = 0, dead = 0;
 
-    let imgUrl = `https://graph.facebook.com/${userId}/picture?type=normal`;
+    userIds.forEach((uid, index) => {
+        let imgUrl = `https://graph.facebook.com/${uid}/picture?type=normal`;
 
-    fetch(imgUrl).then(response => {
-        setTimeout(() => {
-            if (response.ok) {
-                resultDiv.innerHTML = `<p style="color: #0f0;">✔ Alive</p><img src="${imgUrl}" alt="Profile Picture">`;
-            } else {
-                resultDiv.innerHTML = '<p style="color: red;">✖ Death</p>';
-            }
-        }, 1500);
-    }).catch(() => {
-        resultDiv.innerHTML = '<p style="color: red;">Error fetching data</p>';
+        fetch(imgUrl).then(response => {
+            setTimeout(() => {
+                if (response.ok) {
+                    alive++;
+                    aliveCount.textContent = alive;
+                    let li = document.createElement("li");
+                    li.textContent = uid;
+                    aliveList.appendChild(li);
+                } else {
+                    dead++;
+                    deadCount.textContent = dead;
+                    let li = document.createElement("li");
+                    li.textContent = uid;
+                    deadList.appendChild(li);
+                }
+            }, 1000 * index);
+        }).catch(() => {
+            dead++;
+            deadCount.textContent = dead;
+            let li = document.createElement("li");
+            li.textContent = uid;
+            deadList.appendChild(li);
+        });
     });
 }
