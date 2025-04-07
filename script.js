@@ -1,95 +1,91 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    let languageDropdown = document.getElementById("language");
-    let languages = await fetchLanguages();
+const uidInput = document.getElementById('uidInput');
+const aliveList = document.getElementById('aliveList');
+const deadList = document.getElementById('deadList');
+const aliveCount = document.getElementById('aliveCount');
+const deadCount = document.getElementById('deadCount');
+const loader = document.getElementById('loader');
+const themeToggle = document.getElementById('themeToggle');
+const languageSelect = document.getElementById('languageSelect');
 
-    languages.forEach(lang => {
-        let option = document.createElement("option");
-        option.value = lang.code;
-        option.textContent = lang.name;
-        languageDropdown.appendChild(option);
-    });
+const languages = {
+  "English": "en", "Spanish": "es", "French": "fr", "German": "de", "Arabic": "ar",
+  "Russian": "ru", "Hindi": "hi", "Chinese": "zh", "Japanese": "ja", "Korean": "ko",
+  "Turkish": "tr", "Portuguese": "pt", "Italian": "it", "Dutch": "nl", "Indonesian": "id",
+  "Vietnamese": "vi", "Thai": "th", "Malay": "ms", "Greek": "el", "Urdu": "ur",
+  "Bengali": "bn", "Persian": "fa", "Hebrew": "he", "Swedish": "sv", "Polish": "pl",
+  "Czech": "cs", "Romanian": "ro", "Finnish": "fi", "Ukrainian": "uk", "Hungarian": "hu",
+  "Danish": "da", "Norwegian": "no", "Serbian": "sr", "Croatian": "hr", "Bulgarian": "bg",
+  "Slovak": "sk", "Estonian": "et", "Latvian": "lv", "Lithuanian": "lt", "Filipino": "tl",
+  "Swahili": "sw", "Tamil": "ta", "Telugu": "te", "Kannada": "kn", "Marathi": "mr",
+  "Gujarati": "gu", "Punjabi": "pa", "Malayalam": "ml"
+};
 
-    languageDropdown.value = "en";
-    languageDropdown.addEventListener("change", changeLanguage);
-
-    let theme = localStorage.getItem("theme") || "light";
-    document.body.classList.add(theme);
+Object.keys(languages).forEach(name => {
+  const opt = document.createElement("option");
+  opt.value = languages[name];
+  opt.text = name;
+  languageSelect.appendChild(opt);
 });
+languageSelect.value = "en";
 
-async function fetchLanguages() {
-    let response = await fetch("https://restcountries.com/v3.1/all");
-    let data = await response.json();
-    let languageSet = new Set();
+function checkUIDs() {
+  loader.classList.remove('hidden');
+  aliveList.innerHTML = '';
+  deadList.innerHTML = '';
+  aliveCount.textContent = 0;
+  deadCount.textContent = 0;
 
-    data.forEach(country => {
-        if (country.languages) {
-            Object.entries(country.languages).forEach(([code, name]) => {
-                languageSet.add({ code, name });
-            });
+  const uids = uidInput.value.split('\n').map(uid => uid.trim()).filter(Boolean);
+  let alive = [], dead = [];
+
+  let checked = 0;
+  uids.forEach(uid => {
+    fetch(`https://graph.facebook.com/${uid}/picture?type=normal`)
+      .then(res => res.blob())
+      .then(blob => {
+        if (blob.type.includes("image")) {
+          alive.push(uid);
+        } else {
+          dead.push(uid);
         }
-    });
-
-    return Array.from(languageSet);
+      })
+      .catch(() => dead.push(uid))
+      .finally(() => {
+        checked++;
+        if (checked === uids.length) {
+          loader.classList.add('hidden');
+          alive.forEach(id => {
+            const li = document.createElement('li');
+            li.textContent = id;
+            aliveList.appendChild(li);
+          });
+          dead.forEach(id => {
+            const li = document.createElement('li');
+            li.textContent = id;
+            deadList.appendChild(li);
+          });
+          aliveCount.textContent = alive.length;
+          deadCount.textContent = dead.length;
+        }
+      });
+  });
 }
 
-function changeLanguage() {
-    let lang = document.getElementById("language").value;
-    translatePage(lang);
+function copyList(listId) {
+  const text = Array.from(document.getElementById(listId).children).map(li => li.textContent).join('\n');
+  navigator.clipboard.writeText(text);
 }
 
-function translatePage(lang) {
-    let elements = document.querySelectorAll("[id]");
-    elements.forEach(element => {
-        fetch(`https://api.mymemory.translated.net/get?q=${element.innerText}&langpair=en|${lang}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.responseData && data.responseData.translatedText) {
-                    element.innerText = data.responseData.translatedText;
-                }
-            });
-    });
-}
+themeToggle.onclick = () => {
+  document.body.classList.toggle("light");
+  themeToggle.textContent = document.body.classList.contains("light") ? "☀️" : "🌙";
+};
 
-function checkProfiles() {
-    let userIds = document.getElementById("userIds").value.split("\n").map(uid => uid.trim()).filter(uid => uid);
-    let aliveList = document.getElementById("aliveList");
-    let deadList = document.getElementById("deadList");
-    let aliveCount = document.getElementById("aliveCount");
-    let deadCount = document.getElementById("deadCount");
-
-    aliveList.innerHTML = "";
-    deadList.innerHTML = "";
-    aliveCount.textContent = "0";
-    deadCount.textContent = "0";
-
-    let alive = 0, dead = 0;
-
-    userIds.forEach((uid, index) => {
-        let imgUrl = `https://graph.facebook.com/${uid}/picture?type=normal`;
-
-        fetch(imgUrl).then(response => {
-            setTimeout(() => {
-                if (response.ok) {
-                    alive++;
-                    aliveCount.textContent = alive;
-                    let li = document.createElement("li");
-                    li.textContent = uid;
-                    aliveList.appendChild(li);
-                } else {
-                    dead++;
-                    deadCount.textContent = dead;
-                    let li = document.createElement("li");
-                    li.textContent = uid;
-                    deadList.appendChild(li);
-                }
-            }, 1000 * index);
-        });
-    });
-}
-
-function toggleTheme() {
-    let body = document.body;
-    body.classList.toggle("dark");
-    let theme = body.classList.contains("dark") ? "dark" : "light";
-    localStorage.setItem("theme", theme);
-}
+languageSelect.onchange = () => {
+  const lang = languageSelect.value;
+  const current = document.documentElement.lang;
+  if (lang !== current) {
+    const url = `https://translate.google.com/translate?hl=${lang}&sl=${current}&tl=${lang}&u=${location.href}`;
+    window.location.href = url;
+  }
+};
