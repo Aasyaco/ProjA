@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Live Checker</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-    <link rel="icon" href="assets/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facebook Live Checker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.ico" />
 </head>
-<body>
-    <div class="top-bar">
-        <div class="theme-toggle">
-            <button onclick="toggleTheme()">🌙</button>
-        </div>
-        <div class="language-selector">
-            <select id="language" onchange="changeLanguage()"></select>
-        </div>
+<body class="dark">
+  <header>
+    <div class="logo">FLC</div>
+    <div class="controls">
+      <select id="languageSelect"></select>
+      <button id="themeToggle">🌙</button>
     </div>
+  </header>
 
-    <div class="container">
-        <img src="assets/logo.png" class="logo" alt="FLC Logo">
-        <h2 id="title">Facebook Live Checker</h2>
-        <textarea id="userIds" placeholder="Enter Facebook UIDs (one per line)"></textarea>
-        <button onclick="checkProfiles()" id="checkBtn">Check</button>
-        <div class="results-container">
-            <div class="result-box alive">
-                <h3 id="aliveText">✅ Alive Accounts (<span id="aliveCount">0</span>)</h3>
-                <ul id="aliveList"></ul>
-            </div>
-            <div class="result-box dead">
-                <h3 id="deadText">❌ Dead Accounts (<span id="deadCount">0</span>)</h3>
-                <ul id="deadList"></ul>
-            </div>
-        </div>
+  <main>
+    <h1 data-i18n="title">Facebook Live Checker</h1>
+    <textarea id="uidInput" placeholder="Enter UIDs (one per line)..."></textarea>
+    <button onclick="checkUIDs()" id="checkBtn" data-i18n="check">Check</button>
+    <div id="loader" class="loader hidden"></div>
+
+    <div class="results">
+      <div class="box">
+        <h2 data-i18n="alive">Alive (<span id="aliveCount">0</span>)</h2>
+        <button onclick="copyList('aliveList')" data-i18n="copy">Copy</button>
+        <ul id="aliveList"></ul>
+      </div>
+      <div class="box">
+        <h2 data-i18n="dead">Dead (<span id="deadCount">0</span>)</h2>
+        <button onclick="copyList('deadList')" data-i18n="copy">Copy</button>
+        <ul id="deadList"></ul>
+      </div>
     </div>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
