@@ -24,15 +24,13 @@ function checkUIDs() {
     fetch(url, { redirect: "manual" })
       .then(res => res.text().then(text => {
         const urlStr = res.url.toLowerCase();
-        const isAlive =
+        if (
           res.status === 302 ||
-          (res.status === 200 &&
-            (urlStr.includes("fbcdn") ||
-             urlStr.includes("photos") ||
-             urlStr.includes("profilepic") ||
-             text.includes("Photoshop")));
-
-        if (isAlive) {
+          urlStr.includes("fbcdn") ||
+          urlStr.includes("photos") ||
+          urlStr.includes("profilepic") ||
+          text.includes("Photoshop")
+        ) {
           alive.push(uid);
         } else {
           dead.push(uid);
