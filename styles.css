@@ -1,106 +1,126 @@
+/* Reset and theme base */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #121212;
-  color: #f1f1f1;
   transition: background 0.3s, color 0.3s;
+  background: #111;
+  color: #f5f5f5;
 }
 
+/* Light mode */
+body.light {
+  background: #f7f7f7;
+  color: #222;
+}
+
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #1a1a1a;
   padding: 1rem 2rem;
-  background: #1f1f1f;
   border-bottom: 1px solid #333;
 }
 
+body.light header {
+  background: #fff;
+  border-color: #ddd;
+}
+
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #4fa3f7;
+  letter-spacing: 1px;
 }
 
 .controls {
   display: flex;
-  align-items: center;
   gap: 1rem;
 }
 
-select, button {
-  padding: 0.5rem 1rem;
+select,
+button {
   border: none;
-  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   background: #4fa3f7;
-  color: white;
-  font-weight: 500;
+  color: #fff;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-select:hover, button:hover {
+select:hover,
+button:hover {
   background: #368fd3;
 }
 
-textarea {
-  width: 90%;
-  max-width: 700px;
-  height: 140px;
-  margin: 1rem auto;
-  display: block;
-  padding: 1rem;
-  border-radius: 8px;
-  background: #1e1e1e;
-  color: #f1f1f1;
-  border: 1px solid #444;
-  resize: vertical;
+main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  text-align: center;
 }
 
-h1, h2 {
-  text-align: center;
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
   color: #4fa3f7;
 }
 
-.results {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin: 2rem;
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 2rem;
 }
 
-.box {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
+.input-box {
   background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  margin-bottom: 2rem;
+}
+
+body.light .input-box {
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
   padding: 1rem;
+  font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #333;
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid #444;
+  resize: vertical;
+  transition: 0.2s;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
+textarea:focus {
+  outline: none;
+  border-color: #4fa3f7;
 }
 
-ul li {
-  padding: 0.5rem;
-  background: #2a2a2a;
-  margin-bottom: 0.3rem;
-  border-radius: 5px;
+body.light textarea {
+  background: #fafafa;
+  color: #222;
+  border: 1px solid #ccc;
 }
 
+/* Loader */
 .loader {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #4fa3f7;
-  border-top: 4px solid transparent;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #4fa3f7;
+  border-top: 5px solid transparent;
   border-radius: 50%;
-  margin: 1rem auto;
+  margin: 2rem auto;
   animation: spin 1s linear infinite;
 }
 
@@ -109,41 +129,66 @@ ul li {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-body.light {
-  background: #f9f9f9;
-  color: #222;
+/* Result boxes */
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
 }
 
-body.light header {
-  background: #ffffff;
-  border-bottom: 1px solid #ccc;
+.box {
+  flex: 1;
+  min-width: 300px;
+  max-width: 420px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  text-align: left;
+  transition: transform 0.3s ease;
 }
 
-body.light .logo {
-  color: #007bff;
+.box:hover {
+  transform: translateY(-6px);
 }
 
 body.light .box {
-  background: #ffffff;
-  border: 1px solid #ddd;
-}
-
-body.light textarea {
   background: #fff;
-  color: #000;
-  border: 1px solid #ccc;
+  border-color: #ddd;
 }
 
-body.light button,
-body.light select {
-  background: #007bff;
-  color: white;
+.alive-box h2 {
+  color: #1dd05d;
 }
 
-body.light button:hover,
-body.light select:hover {
-  background: #0056b3;
-    }
+.dead-box h2 {
+  color: #ff3c3c;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+ul li {
+  background: #2c2c2c;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  word-break: break-all;
+  transition: 0.2s;
+}
+
+body.light ul li {
+  background: #f2f2f2;
+}
