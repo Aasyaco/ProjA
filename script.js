@@ -37,39 +37,48 @@ function checkUIDs() {
 
   const uids = uidInput.value.split('\n').map(uid => uid.trim()).filter(Boolean);
   let alive = [], dead = [];
-
   let checked = 0;
+
   uids.forEach(uid => {
     fetch(`https://graph.facebook.com/${uid}/picture?type=normal`)
-      .then(res => {
-        if (res.url.includes("facebook.com")) alive.push(uid);
-        else dead.push(uid);
+      .then(res => res.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const text = reader.result;
+          if (text.includes("Photoshop")) {
+            alive.push(uid);
+          } else {
+            dead.push(uid);
+          }
+          updateUI();
+        };
+        reader.readAsText(blob);
       })
-      .catch(() => dead.push(uid))
-      .finally(() => {
-        checked++;
-        if (checked === uids.length) {
-          loader.classList.add('hidden');
-          alive.forEach(id => {
-            const li = document.createElement('li');
-            li.textContent = id;
-            aliveList.appendChild(li);
-          });
-          dead.forEach(id => {
-            const li = document.createElement('li');
-            li.textContent = id;
-            deadList.appendChild(li);
-          });
-          aliveCount.textContent = alive.length;
-          deadCount.textContent = dead.length;
-        }
+      .catch(() => {
+        dead.push(uid);
+        updateUI();
       });
   });
-}
 
-function copyList(id) {
-  const text = Array.from(document.getElementById(id).children).map(li => li.textContent).join('\n');
-  navigator.clipboard.writeText(text);
+  function updateUI() {
+    checked++;
+    if (checked === uids.length) {
+      loader.classList.add('hidden');
+      alive.forEach(id => {
+        const li = document.createElement('li');
+        li.textContent = id;
+        aliveList.appendChild(li);
+      });
+      dead.forEach(id => {
+        const li = document.createElement('li');
+        li.textContent = id;
+        deadList.appendChild(li);
+      });
+      aliveCount.textContent = alive.length;
+      deadCount.textContent = dead.length;
+    }
+  }
 }
 
 themeToggle.addEventListener('click', () => {
@@ -79,7 +88,10 @@ themeToggle.addEventListener('click', () => {
 
 languageSelect.addEventListener('change', () => {
   const lang = languageSelect.value;
+  const existingScript = document.getElementById("gtScript");
+  if (existingScript) existingScript.remove();
   const script = document.createElement("script");
+  script.id = "gtScript";
   script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
   document.head.appendChild(script);
 
