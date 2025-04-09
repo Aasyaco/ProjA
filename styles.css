@@ -1,21 +1,22 @@
+/* Base Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #121212;
   color: #fff;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.light {
-  background-color: #fff;
-  color: #000;
+  background-color: #ffffff;
+  color: #000000;
 }
 
+/* Header */
 header {
-  position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background: #1a1a1a;
   padding: 1rem 2rem;
@@ -23,14 +24,13 @@ header {
 }
 
 body.light header {
-  background: #fff;
+  background: #f9f9f9;
   border-color: #ddd;
 }
 
 .logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
@@ -39,12 +39,11 @@ body.light header {
 }
 
 .controls {
-  position: absolute;
-  right: 2rem;
   display: flex;
   gap: 0.5rem;
 }
 
+/* Main */
 main {
   padding: 2rem;
   text-align: center;
@@ -52,43 +51,68 @@ main {
 
 h1 {
   font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 2rem;
 }
 
+/* Input Box */
 .input-box {
-  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 textarea {
   width: 80%;
   height: 200px;
-  padding: 0.5rem;
-  border: 1px solid #333;
-  background-color: #1a1a1a;
+  padding: 1rem;
+  border: 1px solid #444;
+  background-color: #1f1f1f;
   color: #fff;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+body.light textarea {
+  background-color: #f4f4f4;
+  color: #000;
+  border-color: #ccc;
 }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
   background-color: #333;
   color: #fff;
-  font-size: 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background 0.3s ease;
 }
 
 button:hover {
   background-color: #555;
 }
 
+body.light button {
+  background-color: #ddd;
+  color: #000;
+}
+
+body.light button:hover {
+  background-color: #bbb;
+}
+
+/* Loader */
 .loader {
   margin-top: 2rem;
   border: 8px solid #f3f3f3;
@@ -96,7 +120,7 @@ button:hover {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 2s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 .hidden {
@@ -108,42 +132,70 @@ button:hover {
   100% { transform: rotate(360deg); }
 }
 
+/* Results */
 .results {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
 .result-box {
-  width: 40%;
-  padding: 1rem;
-  background: #222;
-  border-radius: 8px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  background-color: #222;
   border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: left;
+  animation: fadeIn 0.6s ease;
+}
+
+body.light .result-box {
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+
+.result-box h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
 li {
   padding: 0.5rem;
   border-bottom: 1px solid #333;
+  word-break: break-word;
 }
 
+body.light li {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Footer */
 footer {
-  text-align: center;
+  margin-top: 3rem;
   padding: 1rem;
+  text-align: center;
   background: #1a1a1a;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
   color: #fff;
+  font-size: 0.9rem;
 }
 
 body.light footer {
-  background: #fff;
-  color: #000;
+  background: #f2f2f2;
+  color: #333;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
