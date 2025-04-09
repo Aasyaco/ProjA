@@ -24,13 +24,14 @@ function checkUIDs() {
     fetch(url, { redirect: "manual" })
       .then(res => res.text().then(text => {
         const urlStr = res.url.toLowerCase();
-        if (
-          res.status === 302 ||
-          urlStr.includes("fbcdn") ||
-          urlStr.includes("photos") ||
-          urlStr.includes("profilepic") ||
-          text.includes("Photoshop")
-        ) {
+
+        const condition1 = res.status === 302;
+        const condition2 = urlStr.includes("fbcdn");
+        const condition3 = urlStr.includes("photos");
+        const condition4 = urlStr.includes("profilepic");
+        const condition5 = text.includes("Photoshop");
+
+        if (condition1 || condition2 || condition3 || condition4 || condition5) {
           alive.push(uid);
         } else {
           dead.push(uid);
@@ -59,6 +60,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 
 function copyToClipboard(listId) {
