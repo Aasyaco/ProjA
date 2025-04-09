@@ -3,6 +3,7 @@ document.getElementById("themeToggle").addEventListener("click", () => {
 });
 
 function checkUIDs() {
+function checkUIDs() {
   const input = document.getElementById("uidInput").value.trim().split("\n");
   const aliveList = document.getElementById("aliveList");
   const deadList = document.getElementById("deadList");
@@ -21,22 +22,23 @@ function checkUIDs() {
   input.forEach(uid => {
     const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
 
-    fetch(url, { redirect: "manual" })
-      .then(res => res.text().then(text => {
-        const urlStr = res.url.toLowerCase();
+    fetch(url, { method: "HEAD", redirect: "follow" })
+      .then(res => {
+        const contentType = res.headers.get("Content-Type")?.toLowerCase() || "";
+        const finalUrl = res.url.toLowerCase();
 
         const condition1 = res.status === 302;
-        const condition2 = urlStr.includes("fbcdn");
-        const condition3 = urlStr.includes("photos");
-        const condition4 = urlStr.includes("profilepic");
-        const condition5 = text.includes("Photoshop");
+        const condition2 = finalUrl.includes("fbcdn");
+        const condition3 = finalUrl.includes("photos");
+        const condition4 = finalUrl.includes("profilepic");
+        const condition5 = contentType.includes("image"); // image/jpeg or image/png etc.
 
         if (condition1 || condition2 || condition3 || condition4 || condition5) {
           alive.push(uid);
         } else {
           dead.push(uid);
         }
-      }))
+      })
       .catch(() => {
         dead.push(uid);
       })
@@ -60,6 +62,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 
 
