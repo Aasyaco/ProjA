@@ -19,10 +19,11 @@ function checkUIDs() {
   let processed = 0;
 
   input.forEach(uid => {
-    fetch(`https://graph.facebook.com/${uid}/picture?type=normal`)
-      .then(res => res.text())
-      .then(text => {
-        if (text.includes("Photoshop")) {
+    fetch(`https://graph.facebook.com/${uid}/picture?type=normal`, {
+      redirect: "manual"
+    })
+      .then(res => {
+        if (res.status === 302 || res.status === 200) {
           alive.push(uid);
         } else {
           dead.push(uid);
@@ -60,3 +61,26 @@ function copyToClipboard(listId) {
     alert("Copied to clipboard!");
   });
 }
+
+// Populate 50+ languages dynamically
+const languageSelect = document.getElementById("languageSelect");
+const languages = [
+  "English", "Spanish", "French", "German", "Italian", "Portuguese", "Russian", "Chinese", "Japanese",
+  "Korean", "Hindi", "Arabic", "Bengali", "Dutch", "Greek", "Hebrew", "Indonesian", "Malay", "Polish",
+  "Romanian", "Swedish", "Thai", "Turkish", "Ukrainian", "Vietnamese", "Czech", "Danish", "Finnish",
+  "Hungarian", "Norwegian", "Slovak", "Slovenian", "Filipino", "Persian", "Swahili", "Tamil", "Telugu",
+  "Urdu", "Bulgarian", "Croatian", "Estonian", "Latvian", "Lithuanian", "Serbian", "Afrikaans", "Zulu",
+  "Catalan", "Icelandic", "Mongolian", "Pashto", "Punjabi"
+];
+
+languages.forEach(lang => {
+  const option = document.createElement("option");
+  option.value = lang.toLowerCase();
+  option.textContent = lang;
+  languageSelect.appendChild(option);
+});
+
+languageSelect.addEventListener("change", () => {
+  const selected = languageSelect.value;
+  alert("Auto-translation to " + selected + " is not active in demo.");
+});
