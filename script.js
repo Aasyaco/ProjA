@@ -19,16 +19,25 @@ function checkUIDs() {
   let processed = 0;
 
   input.forEach(uid => {
-    fetch(`https://graph.facebook.com/${uid}/picture?type=normal`, {
-      redirect: "manual"
-    })
-      .then(res => {
-        if (res.status === 302 || res.status === 200) {
+    const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
+
+    fetch(url, { redirect: "manual" })
+      .then(res => res.text().then(text => {
+        const urlStr = res.url.toLowerCase();
+        const isAlive =
+          res.status === 302 ||
+          (res.status === 200 &&
+            (urlStr.includes("fbcdn") ||
+             urlStr.includes("photos") ||
+             urlStr.includes("profilepic") ||
+             text.includes("Photoshop")));
+
+        if (isAlive) {
           alive.push(uid);
         } else {
           dead.push(uid);
         }
-      })
+      }))
       .catch(() => {
         dead.push(uid);
       })
@@ -52,6 +61,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 function copyToClipboard(listId) {
   const list = document.getElementById(listId);
