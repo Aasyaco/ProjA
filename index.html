@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Facebook Live Checker</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
@@ -32,16 +32,18 @@
       <div class="result-box">
         <h2>Alive UIDs (<span id="aliveCount">0</span>)</h2>
         <ul id="aliveList"></ul>
+        <button class="copy-btn" onclick="copyToClipboard('aliveList')">Copy</button>
       </div>
       <div class="result-box">
         <h2>Dead UIDs (<span id="deadCount">0</span>)</h2>
         <ul id="deadList"></ul>
+        <button class="copy-btn" onclick="copyToClipboard('deadList')">Copy</button>
       </div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Facebook Live Checker | <a href="https://github.com/Aasyaco/ProjA">GitHub</a></p>
+    <p>&copy; 2025 Facebook Live Checker | <a href="https://github.com/Aasyaco">GitHub</a></p>
   </footer>
 
   <script src="script.js"></script>
