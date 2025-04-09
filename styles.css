@@ -28,12 +28,12 @@ body.light header {
   border-color: #ddd;
 }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #4fa3f7;
-  letter-spacing: 1px;
+.logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
+
 
 .controls {
   display: flex;
