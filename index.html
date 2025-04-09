@@ -18,17 +18,22 @@
 
   <main>
     <h1 data-i18n="title">Facebook Live Checker</h1>
-    <textarea id="uidInput" placeholder="Enter UIDs (one per line)..."></textarea>
-    <button onclick="checkUIDs()" id="checkBtn" data-i18n="check">Check</button>
+    <p class="subtitle">Enter one or multiple Facebook UIDs to check if they are alive.</p>
+    
+    <div class="input-box">
+      <textarea id="uidInput" placeholder="Enter UIDs (one per line)..."></textarea>
+      <button onclick="checkUIDs()" id="checkBtn" data-i18n="check">Check Now</button>
+    </div>
+
     <div id="loader" class="loader hidden"></div>
 
-    <div class="results">
-      <div class="box">
+    <div class="results animated">
+      <div class="box alive-box">
         <h2 data-i18n="alive">Alive (<span id="aliveCount">0</span>)</h2>
         <button onclick="copyList('aliveList')" data-i18n="copy">Copy</button>
         <ul id="aliveList"></ul>
       </div>
-      <div class="box">
+      <div class="box dead-box">
         <h2 data-i18n="dead">Dead (<span id="deadCount">0</span>)</h2>
         <button onclick="copyList('deadList')" data-i18n="copy">Copy</button>
         <ul id="deadList"></ul>
