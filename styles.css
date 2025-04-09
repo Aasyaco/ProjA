@@ -1,22 +1,21 @@
-/* Reset and theme base */
 body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #fff;
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  transition: background 0.3s, color 0.3s;
-  background: #111;
-  color: #f5f5f5;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Light mode */
 body.light {
-  background: #f7f7f7;
-  color: #222;
+  background-color: #fff;
+  color: #000;
 }
 
-/* Header */
 header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background: #1a1a1a;
   padding: 1rem 2rem;
@@ -28,100 +27,76 @@ body.light header {
   border-color: #ddd;
 }
 
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .logo img {
   height: 40px;
   width: auto;
-  object-fit: contain;
 }
-
 
 .controls {
+  position: absolute;
+  right: 2rem;
   display: flex;
-  gap: 1rem;
-}
-
-select,
-button {
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #4fa3f7;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-select:hover,
-button:hover {
-  background: #368fd3;
+  gap: 0.5rem;
 }
 
 main {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 2rem;
   text-align: center;
 }
 
 h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  color: #4fa3f7;
+  font-size: 2.5rem;
 }
 
 .subtitle {
-  font-size: 1rem;
-  opacity: 0.8;
-  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
 }
 
 .input-box {
-  background: #1e1e1e;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  margin-bottom: 2rem;
-}
-
-body.light .input-box {
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  margin: 2rem 0;
 }
 
 textarea {
-  width: 100%;
-  height: 140px;
-  padding: 1rem;
+  width: 80%;
+  height: 200px;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  background-color: #1a1a1a;
+  color: #fff;
   font-size: 1rem;
   border-radius: 8px;
-  background: #2b2b2b;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #333;
   color: #fff;
-  border: 1px solid #444;
-  resize: vertical;
-  transition: 0.2s;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-textarea:focus {
-  outline: none;
-  border-color: #4fa3f7;
+button:hover {
+  background-color: #555;
 }
 
-body.light textarea {
-  background: #fafafa;
-  color: #222;
-  border: 1px solid #ccc;
-}
-
-/* Loader */
 .loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #4fa3f7;
-  border-top: 5px solid transparent;
+  margin-top: 2rem;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
   border-radius: 50%;
-  margin: 2rem auto;
-  animation: spin 1s linear infinite;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
 }
 
 .hidden {
@@ -129,66 +104,46 @@ body.light textarea {
 }
 
 @keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Result boxes */
 .results {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-around;
+  margin-top: 2rem;
 }
 
-.box {
-  flex: 1;
-  min-width: 300px;
-  max-width: 420px;
-  padding: 1.5rem;
-  border-radius: 12px;
-  background: #1e1e1e;
+.result-box {
+  width: 40%;
+  padding: 1rem;
+  background: #222;
+  border-radius: 8px;
   border: 1px solid #333;
-  text-align: left;
-  transition: transform 0.3s ease;
-}
-
-.box:hover {
-  transform: translateY(-6px);
-}
-
-body.light .box {
-  background: #fff;
-  border-color: #ddd;
-}
-
-.alive-box h2 {
-  color: #1dd05d;
-}
-
-.dead-box h2 {
-  color: #ff3c3c;
 }
 
 ul {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 1rem;
-  max-height: 250px;
-  overflow-y: auto;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
-ul li {
-  background: #2c2c2c;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
-  word-break: break-all;
-  transition: 0.2s;
+li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #333;
 }
 
-body.light ul li {
-  background: #f2f2f2;
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #1a1a1a;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+}
+
+body.light footer {
+  background: #fff;
+  color: #000;
 }
