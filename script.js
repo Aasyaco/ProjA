@@ -20,11 +20,11 @@ const languages = {
   "Gujarati": "gu", "Punjabi": "pa", "Malayalam": "ml"
 };
 
-Object.keys(languages).forEach(name => {
-  const opt = document.createElement("option");
-  opt.value = languages[name];
-  opt.text = name;
-  languageSelect.appendChild(opt);
+Object.entries(languages).forEach(([name, code]) => {
+  const option = document.createElement("option");
+  option.value = code;
+  option.textContent = name;
+  languageSelect.appendChild(option);
 });
 languageSelect.value = "en";
 
@@ -41,13 +41,9 @@ function checkUIDs() {
   let checked = 0;
   uids.forEach(uid => {
     fetch(`https://graph.facebook.com/${uid}/picture?type=normal`)
-      .then(res => res.blob())
-      .then(blob => {
-        if (blob.type.includes("image")) {
-          alive.push(uid);
-        } else {
-          dead.push(uid);
-        }
+      .then(res => {
+        if (res.url.includes("facebook.com")) alive.push(uid);
+        else dead.push(uid);
       })
       .catch(() => dead.push(uid))
       .finally(() => {
@@ -71,21 +67,28 @@ function checkUIDs() {
   });
 }
 
-function copyList(listId) {
-  const text = Array.from(document.getElementById(listId).children).map(li => li.textContent).join('\n');
+function copyList(id) {
+  const text = Array.from(document.getElementById(id).children).map(li => li.textContent).join('\n');
   navigator.clipboard.writeText(text);
 }
 
-themeToggle.onclick = () => {
-  document.body.classList.toggle("light");
-  themeToggle.textContent = document.body.classList.contains("light") ? "☀️" : "🌙";
-};
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+});
 
-languageSelect.onchange = () => {
+languageSelect.addEventListener('change', () => {
   const lang = languageSelect.value;
-  const current = document.documentElement.lang;
-  if (lang !== current) {
-    const url = `https://translate.google.com/translate?hl=${lang}&sl=${current}&tl=${lang}&u=${location.href}`;
-    window.location.href = url;
-  }
-};
+  const script = document.createElement("script");
+  script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+  document.head.appendChild(script);
+
+  window.googleTranslateElementInit = () => {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: Object.values(languages).join(','),
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  };
+});
