@@ -25,6 +25,9 @@ function checkUIDs() {
       .then(res => res.text().then(text => {
         if (text.includes("Photoshop")) {
           alive.push(uid);
+          else if (res.status === 302 || res.status === 200) {
+          alive.push(uid);
+        }
         } else {
           dead.push(uid);
         }
