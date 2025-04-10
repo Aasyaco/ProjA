@@ -21,17 +21,14 @@ function checkUIDs() {
   input.forEach(uid => {
     const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
 
-    fetch(url, { redirect: "manual" })
-      .then(res => res.text().then(text => {
-        if (text.includes("Photoshop")) {
+    fetch(url, { method: "HEAD", redirect: "manual" })
+      .then(res => {
+        if (res.status === 200 || res.status === 302) {
           alive.push(uid);
-          else if (res.status === 302 || res.status === 200) {
-          alive.push(uid);
-        }
         } else {
           dead.push(uid);
         }
-      }))
+      })
       .catch(() => {
         dead.push(uid);
       })
@@ -56,7 +53,6 @@ function checkUIDs() {
   });
 }
 
-
 function copyToClipboard(listId) {
   const list = document.getElementById(listId);
   const items = Array.from(list.querySelectorAll("li")).map(li => li.textContent.trim());
@@ -66,7 +62,6 @@ function copyToClipboard(listId) {
   });
 }
 
-// Populate 50+ languages dynamically
 const languageSelect = document.getElementById("languageSelect");
 const languages = [
   "English", "Spanish", "French", "German", "Italian", "Portuguese", "Russian", "Chinese", "Japanese",
