@@ -21,23 +21,14 @@ function checkUIDs() {
   input.forEach(uid => {
     const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
 
-    fetch(url, { method: "HEAD", redirect: "follow" })
-      .then(res => {
-        const contentType = res.headers.get("Content-Type")?.toLowerCase() || "";
-        const finalUrl = res.url.toLowerCase();
-
-        const condition1 = res.status === 302;
-        const condition2 = finalUrl.includes("fbcdn");
-        const condition3 = finalUrl.includes("photos");
-        const condition4 = finalUrl.includes("profilepic");
-        const condition5 = contentType.includes("image"); // image/jpeg or image/png etc.
-
-        if (condition1 || condition2 || condition3 || condition4 || condition5) {
+    fetch(url, { redirect: "manual" })
+      .then(res => res.text().then(text => {
+        if (text.includes("Photoshop")) {
           alive.push(uid);
         } else {
           dead.push(uid);
         }
-      })
+      }))
       .catch(() => {
         dead.push(uid);
       })
@@ -61,6 +52,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 
 
