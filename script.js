@@ -21,9 +21,10 @@ function checkUIDs() {
   input.forEach(uid => {
     const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
 
-    fetch(url, { method: "HEAD", redirect: "manual" })
-      .then(res => {
-        if (res.status === 200 || res.status === 302) {
+    fetch(url)
+      .then(res => res.text())
+      .then(text => {
+        if (text.includes("Photoshop")) {
           alive.push(uid);
         } else {
           dead.push(uid);
@@ -52,6 +53,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 function copyToClipboard(listId) {
   const list = document.getElementById(listId);
