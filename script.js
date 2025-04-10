@@ -7,27 +7,22 @@ function checkUIDs() {
   const aliveList = document.getElementById("aliveList");
   const deadList = document.getElementById("deadList");
   const loader = document.getElementById("loader");
-
   aliveList.innerHTML = "";
   deadList.innerHTML = "";
   document.getElementById("aliveCount").textContent = "0";
   document.getElementById("deadCount").textContent = "0";
   loader.classList.remove("hidden");
-
   let alive = [];
   let dead = [];
   let processed = 0;
-
   input.forEach(uid => {
     const url = `https://graph.facebook.com/${uid}/picture?type=normal`;
-
     fetch(url, { redirect: "manual" })
       .then(res => res.text().then(text => {
         if (text.includes("Photoshop")) {
           alive.push(uid);
-          else if (res.status === 302 || res.status === 200) {
+        } else if (res.status === 302 || res.status === 200) {
           alive.push(uid);
-        }
         } else {
           dead.push(uid);
         }
