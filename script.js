@@ -3,7 +3,6 @@ document.getElementById("themeToggle").addEventListener("click", () => {
 });
 
 function checkUIDs() {
-function checkUIDs() {
   const input = document.getElementById("uidInput").value.trim().split("\n");
   const aliveList = document.getElementById("aliveList");
   const deadList = document.getElementById("deadList");
