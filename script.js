@@ -23,18 +23,10 @@ function checkUIDs() {
 
     fetch(url, { method: "HEAD", redirect: "manual" })
       .then(res => {
-        if (res.status === 302) {
+        if (res.status === 200 || res.status === 302) {
           alive.push(uid);
         } else {
-          return fetch(url, { redirect: "manual" })
-            .then(r => r.text())
-            .then(text => {
-              if (text.includes("Photoshop")) {
-                alive.push(uid);
-              } else {
-                dead.push(uid);
-              }
-            });
+          dead.push(uid);
         }
       })
       .catch(() => {
@@ -60,6 +52,7 @@ function checkUIDs() {
       });
   });
 }
+
 
 function copyToClipboard(listId) {
   const list = document.getElementById(listId);
